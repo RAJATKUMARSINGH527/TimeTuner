@@ -29,7 +29,7 @@ const LoginPage = () => {
     
     try {
       setLoading(true);
-      const response = await fetch('/api/auth/login', {
+      const response = await fetch('http://localhost:8000/users/login', {
         method: 'POST',
         headers: {
           'Content-Type': 'application/json',
@@ -44,12 +44,18 @@ const LoginPage = () => {
       }
       
       // Store token in localStorage
-      localStorage.setItem('token', data.token);
-      localStorage.setItem('user', JSON.stringify(data.user));
+      localStorage.getItem('token', data.token);
+      localStorage.getItem('user', JSON.stringify(data.user));
+
+      console.log('Login successful! Token generated:', data.token);  // ✅ Log token
+      console.log('User data:', data.user);  // ✅ Log user data
+      alert('Login successful!');
       
-      // Redirect to dashboard
-      navigate('/dashboard');
+      // Redirect to Home page
+      navigate('/');
     } catch (err) {
+      alert(err.message || 'Login failed. Please try again.');
+      
       setError(err.message || 'Login failed. Please try again.');
     } finally {
       setLoading(false);
@@ -136,7 +142,7 @@ const LoginPage = () => {
         {/* Sign Up Link */}
         <div className="text-center mt-4">
           <p className="text-white">Don't have an account?</p>
-          <a href="/signup" className="text-white font-medium">Sign up</a>
+          <a href="/signup" className="text-white font-medium">Create Account</a>
         </div>
       </div>
     </div>
